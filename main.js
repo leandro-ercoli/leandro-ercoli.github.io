@@ -321,7 +321,7 @@ module.exports = "  /* Navbar & Sidebar */\r\n  nav {\r\n    background-color: #
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"navbar-fixed\">\n  <nav>\n    <div class=\"nav-wrapper\">\n      <div class=\"brand-logo\">Logo</div>\n      <ul class=\"right\">\n        <li routerLinkActive=\"active\">\n          <a routerLink=\"/home\">\n            <i class=\"fa fa-dashboard\" style=\"font-size:24px; padding-right:0.5rem;\"></i>Tiempo Real\n          </a>\n        </li>\n        <li routerLinkActive=\"active\">\n          <a routerLink=\"/predicciones\">\n            <i class=\"fa fa-area-chart\" style=\"font-size:24px; padding-right:0.5rem;\"></i>Predicciones\n          </a>\n        </li>      \n      </ul>            \n    </div>\n  </nav>\n</div>\n\n<main>\n  <router-outlet></router-outlet>\n</main>"
+module.exports = "<div class=\"navbar-fixed\">\n  <nav>\n    <div class=\"nav-wrapper\">\n      <!--<div class=\"brand-logo\">Logo</div>-->\n      <ul class=\"right\">\n        <li routerLinkActive=\"active\">\n          <a routerLink=\"/home\">\n            <i class=\"fa fa-dashboard\" style=\"font-size:24px; padding-right:0.5rem;\"></i>Tiempo Real\n          </a>\n        </li>\n        <li routerLinkActive=\"active\">\n          <a routerLink=\"/predicciones\">\n            <i class=\"fa fa-area-chart\" style=\"font-size:24px; padding-right:0.5rem;\"></i>Predicciones\n          </a>\n        </li>      \n      </ul>            \n    </div>\n  </nav>\n</div>\n\n<main>\n  <router-outlet></router-outlet>\n</main>"
 
 /***/ }),
 
@@ -467,22 +467,39 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var DataService = /** @class */ (function () {
     function DataService(http) {
         this.http = http;
-        this.predicciones = './assets/predicciones.json';
-        this.realdata = './assets/bitcoindata.json';
+        // Tiempo real
         this.cryptovalues = "https://api.coinmarketcap.com/v2/ticker/?limit=100&structure=array";
         this.globaldata = 'https://api.coinmarketcap.com/v2/global/';
+        // Predicciones
+        //predicciones = './assets/toAngular.json';
+        //prediccionesMeta = './assets/PrediccionMeta.json';
+        this.prediccionesBitcoin = './assets/script/bitcoin/toAngular.json';
+        this.prediccionesEthereum = './assets/script/ethereum/toAngular.json';
+        this.prediccionesRipple = './assets/script/ripple/toAngular.json';
+        this.prediccionesBitcoinCash = './assets/script/bitcoin-cash/toAngular.json';
+        this.prediccionesMeta = './assets/script/PrediccionMeta.json';
     }
-    DataService.prototype.getPredicciones = function () {
-        return this.http.get(this.predicciones);
-    };
-    DataService.prototype.getRealData = function () {
-        return this.http.get(this.realdata);
-    };
     DataService.prototype.getRealTimeCryptoValues = function () {
         return this.http.get(this.cryptovalues);
     };
     DataService.prototype.getGlobalData = function () {
         return this.http.get(this.globaldata);
+    };
+    DataService.prototype.getPredicciones = function (moneda) {
+        switch (moneda) {
+            case 'Bitcoin':
+                return this.http.get(this.prediccionesBitcoin);
+            case 'Ethereum':
+                return this.http.get(this.prediccionesEthereum);
+            case 'Ripple':
+                return this.http.get(this.prediccionesRipple);
+            case 'Bitcoin-Cash':
+                return this.http.get(this.prediccionesBitcoinCash);
+        }
+        return null;
+    };
+    DataService.prototype.getPrediccionesMeta = function () {
+        return this.http.get(this.prediccionesMeta);
     };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -719,7 +736,7 @@ module.exports = "  .card-action{\r\n    display:inline-block; \r\n    width:100
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=section>\n    <!-- Precios máximos y mínimos / Crecimiento-->\n    <div class=\"row\">\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 short-slide-toright\">\n          <div class=\"card-title\">\n            <span>Precios máximos y mínimos</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-radar\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Crecimiento esperado</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-crecimiento\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 card-resumen extra-big-slide-toright\">\n          <div class=\"card-content\">\n            <div class=\"data-title light-green-text text-accent-3\">Mejor Performance:</div>\n            <div class=\"data\" *ngIf=\"data\">\n              <span>{{data.mejor_performance.Moneda}} ({{data.mejor_performance.Crecimiento}}%)</span>\n            </div>\n            <div class=\"data-title\" style=\"color:red;\">Peor Performance: </div>\n            <div class=\"data\" *ngIf=\"data\">\n              <span>{{data.peor_performance.Moneda}} ({{data.peor_performance.Crecimiento}}%)</span>\n            </div>\n            <div class=\"data-title light-green-text text-accent-3\">Mayor volatilidad: </div>\n            <div class=\"data\" *ngIf=\"data\">\n              <span>{{data.mayor_volatilidad.Moneda}} ({{data.mayor_volatilidad.Volatilidad}}%)</span>\n            </div>\n            <div class=\"data-title\" style=\"color:red;\">Menor volatilidad </div>\n            <div class=\"data\" *ngIf=\"data\">\n              <span>{{data.menor_volatilidad.Moneda}} ({{data.menor_volatilidad.Volatilidad}}%)</span>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_RNN.trend == 'alza'\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_RNN.trend == 'baja'\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-bitcoin\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"data\">\n            <span class=\"tag right\">RMSE: {{data.Predicciones[0].Prediccion_RNN.RMSE}}</span>\n            <span class=\"tag right\">Volatilidad: {{data.Predicciones[0].Prediccion_RNN.Volatilidad}}%</span>\n            <span class=\"tag right\">Performance: {{data.Predicciones[0].Prediccion_RNN.Crecimiento}}%</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col s12 m6\">\n        <div class=\"card z-depth-0 big-slide-toleft\">\n          <div class=\"card-title\">\n            <span>Predicción Holt-Winter</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_HW.trend == 'alza'\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_HW.trend == 'baja'\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-bitcoin-HW\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"data\">\n              <span class=\"tag right\">RMSE: {{data.Predicciones[0].Prediccion_HW.RMSE}}</span>\n              <span class=\"tag right\">Volatilidad: {{data.Predicciones[0].Prediccion_HW.Volatilidad}}%</span>\n              <span class=\"tag right\">Performance: {{data.Predicciones[0].Prediccion_HW.Crecimiento}}%</span>\n            </div>\n        </div>\n      </div>\n      <div class=\"col s12 m6\">\n        <div class=\"card z-depth-0 extra-big-slide-toleft\">\n          <div class=\"card-title\">\n            <span>Predicción ARIMA</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_ARIMA.trend == 'alza'\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"data && data.Predicciones[0].Prediccion_ARIMA.trend == 'baja'\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-bitcoin-ARIMA\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"data\">\n              <span class=\"tag right\">RMSE: {{data.Predicciones[0].Prediccion_ARIMA.RMSE}}</span>\n              <span class=\"tag right\">Volatilidad: {{data.Predicciones[0].Prediccion_ARIMA.Volatilidad}}%</span>\n              <span class=\"tag right\">Performance: {{data.Predicciones[0].Prediccion_ARIMA.Crecimiento}}%</span>\n            </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=section>\n    <!-- Precios máximos y mínimos / Crecimiento -->\n    <div class=\"row\">\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 short-slide-toright\">\n          <div class=\"card-title\">\n            <span>Volatilidad relativa esperada</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-volatilidad\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Crecimiento esperado</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-crecimiento\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 card-resumen extra-big-slide-toright\">\n          <div class=\"card-content\">\n            <table class=\"centered responsive\">\n              <thead>\n                <tr>\n                  <th>Crypto</th>\n                  <th>Min Precio (USD)</th>\n                  <th>Max Precio (USD)</th>\n                </tr>\n              </thead>\n              <tbody *ngIf=\"metadata\">\n                <tr>\n                  <td>Bitcoin</td>\n                  <td>{{ metadata.bitcoin.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.bitcoin.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ethereum</td>\n                  <td>{{ metadata.ethereum.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ethereum.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ripple</td>\n                  <td>{{ metadata.ripple.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ripple.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Bitcoin-Cash</td>\n                  <td>{{ metadata['bitcoin-cash'].MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata['bitcoin-cash'].MaximoPrecio | number:0 }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.bitcoin.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.bitcoin.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.bitcoin.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.bitcoin.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ethereum -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ethereum</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ethereum\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ethereum.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ethereum.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ethereum.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.ethereum.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ripple -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ripple</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ripple\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ripple.RMSE | number:'1.1-4' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ripple.RMSEHW | number:'1.1-4'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ripple.Volatilidad | number:'1.1-4' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.ripple.Performance | number:'1.1-4'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin Cash -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin-Cash</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin-Cash\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata[\"bitcoin-cash\"].RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata[\"bitcoin-cash\"].RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata[\"bitcoin-cash\"].Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata[\"bitcoin-cash\"].Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -754,6 +771,7 @@ var PrediccionesComponent = /** @class */ (function () {
     function PrediccionesComponent(dataService) {
         this.dataService = dataService;
         this.scrollPosition = 0;
+        this.targets = ["Bitcoin", "Ethereum", "Ripple", "Bitcoin-Cash"];
     }
     PrediccionesComponent.prototype.onScroll = function () {
         this.scrollPosition = window.pageYOffset;
@@ -762,81 +780,28 @@ var PrediccionesComponent = /** @class */ (function () {
     };
     PrediccionesComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataService.getPredicciones().subscribe(function (p) {
-            _this.data = p;
-            // Configuración de charts
-            chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontFamily = "'Roboto', sans-serif";
-            chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontColor = "#FFF";
-            chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontStyle = 200;
-            chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontSize = 14;
-            //Predicción precios mínimos y máximos
-            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById("prediccion-radar"), {
-                type: 'radar',
+        // Configuración de charts
+        chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontFamily = "'Roboto', sans-serif";
+        chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontColor = "#FFF";
+        chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontStyle = 200;
+        chart_js__WEBPACK_IMPORTED_MODULE_1__["defaults"].global.defaultFontSize = 14;
+        // Obtener info meta sobre las predicciones
+        this.dataService.getPrediccionesMeta().subscribe(function (meta) {
+            _this.metadata = meta;
+            console.log(meta.bitcoin);
+            // Predicción volatilidad
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById("prediccion-volatilidad"), {
+                type: 'horizontalBar',
                 data: {
-                    labels: ["Bitcoin", "Ethereum", "Litecoin", "Ripple", "Bitcoin Cash"],
-                    datasets: [
-                        {
-                            label: "Máximo Precio",
-                            fill: true,
-                            backgroundColor: "rgba(229,115,115,0.2)",
-                            borderColor: "#f44336",
-                            pointBackgroundColor: "#f44336",
-                            pointBorderColor: "#fff",
-                            data: [_this.data.Predicciones[0].Prediccion_RNN.Max_precio,
-                                _this.data.Predicciones[1].Prediccion_RNN.Max_precio,
-                                _this.data.Predicciones[2].Prediccion_RNN.Max_precio,
-                                _this.data.Predicciones[3].Prediccion_RNN.Max_precio,
-                                _this.data.Predicciones[4].Prediccion_RNN.Max_precio],
-                            lineTension: -0.1
-                        }, {
-                            label: "Mínimo Precio",
-                            fill: true,
-                            backgroundColor: "rgba(255,183,77,0.4)",
-                            borderColor: "#ff9800",
-                            pointBackgroundColor: "#ffb74d",
-                            pointBorderColor: "#fff",
-                            data: [_this.data.Predicciones[0].Prediccion_RNN.Min_precio,
-                                _this.data.Predicciones[1].Prediccion_RNN.Min_precio,
-                                _this.data.Predicciones[2].Prediccion_RNN.Min_precio,
-                                _this.data.Predicciones[3].Prediccion_RNN.Min_precio,
-                                _this.data.Predicciones[4].Prediccion_RNN.Min_precio],
-                            lineTension: -0.1
-                        }
-                    ]
-                },
-                options: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {}
-                    },
-                    scale: {
-                        ticks: {
-                            suggestedMin: 0,
-                            //suggestedMax: 20000,
-                            maxTicksLimit: 5,
-                            showLabelBackdrop: false,
-                            fontSize: 11
-                        },
-                        pointLabels: {
-                            fontSize: 12
-                        },
-                    }
-                }
-            });
-            //Prediccion crecimiento (barra)
-            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById("prediccion-crecimiento"), {
-                type: 'bar',
-                data: {
-                    labels: ["Bitcoin", "Ethereum", "Litecoin", "Bitcoin Cash", "Ripple"],
+                    labels: _this.targets,
                     datasets: [
                         {
                             fill: true,
                             backgroundColor: ["rgba(229,115,115,0.8)", "rgba(229,0,115,0.8)", "rgba(0,115,115,0.8)", "rgba(229,115,0,0.8)", "rgba(0,0,115,0.8)"],
-                            data: [_this.data.Predicciones[0].Prediccion_RNN.Crecimiento,
-                                _this.data.Predicciones[1].Prediccion_RNN.Crecimiento,
-                                _this.data.Predicciones[2].Prediccion_RNN.Crecimiento,
-                                _this.data.Predicciones[3].Prediccion_RNN.Crecimiento,
-                                _this.data.Predicciones[4].Prediccion_RNN.Crecimiento],
+                            data: [meta.bitcoin.VolatilidadRelativa,
+                                meta.ethereum.VolatilidadRelativa,
+                                meta.ripple.VolatilidadRelativa,
+                                meta['bitcoin-cash'].VolatilidadRelativa],
                             lineTension: -0.1
                         }
                     ]
@@ -850,216 +815,335 @@ var PrediccionesComponent = /** @class */ (function () {
                                 display: true,
                                 ticks: {
                                     suggestedMin: 0,
-                                    // OR //
                                     suggestedMax: 15,
                                     beginAtZero: true // minimum value will be 0.
+                                },
+                            }],
+                        xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "% sobre la media esperada"
                                 }
                             }]
                     }
                 }
             });
-            _this.dataService.getRealData().subscribe(function (bitcoindata) {
-                //Chart Bitcoin
-                new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-bitcoin'), {
-                    type: 'bar',
-                    data: {
-                        labels: bitcoindata.Fechas,
-                        datasets: [{
-                                label: "Volumen",
-                                fill: true,
-                                backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                                borderColor: 'rgba(0, 255, 0, 1)',
-                                borderWidth: 2,
-                                hoverBorderWidth: 3,
-                                data: _this.data.Predicciones[0].Prediccion_RNN.Volumen,
-                                yAxisID: "y-axis-bar"
-                            },
-                            {
-                                label: "Precio real",
-                                data: bitcoindata.Precios,
-                                borderColor: 'rgba(25, 127, 255, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
-                            },
-                            {
-                                label: "Precio",
-                                data: _this.data.Predicciones[0].Prediccion_RNN.Precios,
-                                borderColor: 'rgba(225, 127, 25, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
-                            }],
-                    },
-                    options: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {}
-                        },
-                        scales: {
-                            yAxes: [{
-                                    position: "left",
-                                    "id": "y-axis-line",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 15000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Precio (USD)"
-                                    }
-                                },
-                                {
-                                    position: "right",
-                                    "id": "y-axis-bar",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 1600000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Volumen"
-                                    }
-                                }]
+            //Prediccion crecimiento (barra)
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById("prediccion-crecimiento"), {
+                type: 'horizontalBar',
+                data: {
+                    labels: _this.targets,
+                    datasets: [
+                        {
+                            fill: true,
+                            backgroundColor: ["rgba(229,115,115,0.8)", "rgba(229,0,115,0.8)", "rgba(0,115,115,0.8)", "rgba(229,115,0,0.8)", "rgba(0,0,115,0.8)"],
+                            data: [meta.bitcoin.Performance,
+                                meta.ethereum.Performance,
+                                meta.ripple.Performance,
+                                meta['bitcoin-cash'].Performance],
+                            lineTension: -0.1
                         }
-                    }
-                });
-                //Chart Holt-Winter
-                new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-bitcoin-HW'), {
-                    type: 'bar',
-                    data: {
-                        labels: bitcoindata.Fechas,
-                        datasets: [{
-                                label: "Volumen",
-                                fill: true,
-                                backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                                borderColor: 'rgba(0, 255, 0, 1)',
-                                borderWidth: 2,
-                                hoverBorderWidth: 3,
-                                data: _this.data.Predicciones[0].Prediccion_HW.Volumen,
-                                yAxisID: "y-axis-bar"
-                            },
-                            {
-                                label: "Precio real",
-                                data: bitcoindata.Precios,
-                                borderColor: 'rgba(25, 127, 255, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
-                            },
-                            {
-                                label: "Precio",
-                                data: _this.data.Predicciones[0].Prediccion_RNN.Precios,
-                                borderColor: 'rgba(225, 127, 25, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
-                            }],
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: false
                     },
-                    options: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {}
-                        },
-                        scales: {
-                            yAxes: [{
-                                    position: "left",
-                                    "id": "y-axis-line",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 15000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Precio (USD)"
-                                    }
-                                },
-                                {
-                                    position: "right",
-                                    "id": "y-axis-bar",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 1600000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Volumen"
-                                    }
-                                }]
-                        }
-                    }
-                });
-                //Chart ARIMA
-                new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-bitcoin-ARIMA'), {
-                    type: 'bar',
-                    data: {
-                        labels: bitcoindata.Fechas,
-                        datasets: [{
-                                label: "Volumen",
-                                fill: true,
-                                backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                                borderColor: 'rgba(0, 255, 0, 1)',
-                                borderWidth: 2,
-                                hoverBorderWidth: 3,
-                                data: _this.data.Predicciones[0].Prediccion_ARIMA.Volumen,
-                                yAxisID: "y-axis-bar"
-                            },
-                            {
-                                label: "Precio real",
-                                data: bitcoindata.Precios,
-                                borderColor: 'rgba(25, 127, 255, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
-                            },
-                            {
-                                label: "Precio",
-                                data: _this.data.Predicciones[0].Prediccion_ARIMA.Precios,
-                                borderColor: 'rgba(255, 127, 25, 1)',
-                                fill: false,
-                                type: 'line',
-                                yAxisID: "y-axis-line"
+                    scales: {
+                        yAxes: [{
+                                display: true,
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 15,
+                                    beginAtZero: true // minimum value will be 0.
+                                }
                             }],
-                    },
-                    options: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {}
-                        },
-                        scales: {
-                            yAxes: [{
-                                    position: "left",
-                                    "id": "y-axis-line",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 15000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Precio (USD)"
-                                    }
-                                },
-                                {
-                                    position: "right",
-                                    "id": "y-axis-bar",
-                                    ticks: {
-                                        suggestedMin: 0,
-                                        suggestedMax: 1600000,
-                                        maxTicksLimit: 10,
-                                    },
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: "Volumen"
-                                    }
-                                }]
-                        }
+                        xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "USD/día"
+                                }
+                            }]
                     }
-                });
+                }
+            });
+        });
+        // GRAFICO BITCOIN
+        this.dataService.getPredicciones("Bitcoin").subscribe(function (data) {
+            var preciosReales = [];
+            var prediccionRN = [];
+            var prediccionHoltWinters = [];
+            for (var i = 0; i < data.data.length; i++) {
+                preciosReales = preciosReales.concat(data.data[i][0]);
+                prediccionRN = prediccionRN.concat(data.data[i][1]);
+                prediccionHoltWinters = prediccionHoltWinters.concat(data.data[i][2]);
+            }
+            var fechas = [];
+            for (var i = 0; i < data.index.length; i++) {
+                fechas = fechas.concat(new Date(data.index[i]).toLocaleDateString());
+            }
+            // Chart
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Bitcoin'), {
+                type: 'bar',
+                data: {
+                    labels: fechas.slice(-15),
+                    datasets: [
+                        {
+                            label: "Precio real",
+                            data: preciosReales.slice(-15),
+                            borderColor: 'rgba(25, 127, 255, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción RN",
+                            data: prediccionRN.slice(-15),
+                            borderColor: 'rgba(225, 127, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción Holt Winters",
+                            data: prediccionHoltWinters.slice(-15),
+                            borderColor: 'rgba(127, 255, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        }
+                    ],
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {}
+                    },
+                    scales: {
+                        yAxes: [{
+                                position: "left",
+                                "id": "y-axis-line",
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 10000,
+                                    maxTicksLimit: 10,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Precio (USD)"
+                                }
+                            }]
+                    }
+                }
+            });
+        });
+        // GRAFICO ETHEREUM
+        this.dataService.getPredicciones("Ethereum").subscribe(function (data) {
+            var preciosReales = [];
+            var prediccionRN = [];
+            var prediccionHoltWinters = [];
+            for (var i = 0; i < data.data.length; i++) {
+                preciosReales = preciosReales.concat(data.data[i][0]);
+                prediccionRN = prediccionRN.concat(data.data[i][1]);
+                prediccionHoltWinters = prediccionHoltWinters.concat(data.data[i][2]);
+            }
+            var fechas = [];
+            for (var i = 0; i < data.index.length; i++) {
+                fechas = fechas.concat(new Date(data.index[i]).toLocaleDateString());
+            }
+            //Chart 
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Ethereum'), {
+                type: 'bar',
+                data: {
+                    labels: fechas.slice(-15),
+                    datasets: [
+                        {
+                            label: "Precio real",
+                            data: preciosReales.slice(-15),
+                            borderColor: 'rgba(25, 127, 255, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción RN",
+                            data: prediccionRN.slice(-15),
+                            borderColor: 'rgba(225, 127, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción Holt Winters",
+                            data: prediccionHoltWinters.slice(-15),
+                            borderColor: 'rgba(127, 255, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        }
+                    ],
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {}
+                    },
+                    scales: {
+                        yAxes: [{
+                                position: "left",
+                                "id": "y-axis-line",
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 400,
+                                    maxTicksLimit: 10,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Precio (USD)"
+                                }
+                            }]
+                    }
+                }
+            });
+        });
+        // GRAFICO RIPPLE
+        this.dataService.getPredicciones("Ripple").subscribe(function (data) {
+            var preciosReales = [];
+            var prediccionRN = [];
+            var prediccionHoltWinters = [];
+            for (var i = 0; i < data.data.length; i++) {
+                preciosReales = preciosReales.concat(data.data[i][0]);
+                prediccionRN = prediccionRN.concat(data.data[i][1]);
+                prediccionHoltWinters = prediccionHoltWinters.concat(data.data[i][2]);
+            }
+            var fechas = [];
+            for (var i = 0; i < data.index.length; i++) {
+                fechas = fechas.concat(new Date(data.index[i]).toLocaleDateString());
+            }
+            //Chart
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Ripple'), {
+                type: 'bar',
+                data: {
+                    labels: fechas.slice(-15),
+                    datasets: [
+                        {
+                            label: "Precio real",
+                            data: preciosReales.slice(-15),
+                            borderColor: 'rgba(25, 127, 255, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción RN",
+                            data: prediccionRN.slice(-15),
+                            borderColor: 'rgba(225, 127, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción Holt Winters",
+                            data: prediccionHoltWinters.slice(-15),
+                            borderColor: 'rgba(127, 255, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        }
+                    ],
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {}
+                    },
+                    scales: {
+                        yAxes: [{
+                                position: "left",
+                                "id": "y-axis-line",
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 1,
+                                    maxTicksLimit: 10,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Precio (USD)"
+                                }
+                            }]
+                    }
+                }
+            });
+        });
+        // GRAFICO BITCOIN-CASH
+        this.dataService.getPredicciones("Bitcoin-Cash").subscribe(function (data) {
+            var preciosReales = [];
+            var prediccionRN = [];
+            var prediccionHoltWinters = [];
+            for (var i = 0; i < data.data.length; i++) {
+                preciosReales = preciosReales.concat(data.data[i][0]);
+                prediccionRN = prediccionRN.concat(data.data[i][1]);
+                prediccionHoltWinters = prediccionHoltWinters.concat(data.data[i][2]);
+            }
+            var fechas = [];
+            for (var i = 0; i < data.index.length; i++) {
+                fechas = fechas.concat(new Date(data.index[i]).toLocaleDateString());
+            }
+            //Chart 
+            new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Bitcoin-Cash'), {
+                type: 'bar',
+                data: {
+                    labels: fechas.slice(-15),
+                    datasets: [
+                        {
+                            label: "Precio real",
+                            data: preciosReales.slice(-15),
+                            borderColor: 'rgba(25, 127, 255, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción RN",
+                            data: prediccionRN.slice(-15),
+                            borderColor: 'rgba(225, 127, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        },
+                        {
+                            label: "Predicción Holt Winters",
+                            data: prediccionHoltWinters.slice(-15),
+                            borderColor: 'rgba(127, 255, 25, 1)',
+                            fill: false,
+                            type: 'line',
+                            yAxisID: "y-axis-line"
+                        }
+                    ],
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {}
+                    },
+                    scales: {
+                        yAxes: [{
+                                position: "left",
+                                "id": "y-axis-line",
+                                ticks: {
+                                    suggestedMin: 0,
+                                    suggestedMax: 700,
+                                    maxTicksLimit: 10,
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Precio (USD)"
+                                }
+                            }]
+                    }
+                }
             });
         });
     };
