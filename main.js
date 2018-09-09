@@ -532,7 +532,7 @@ module.exports = ".card-realtime .card-title{\r\n    padding-bottom:1.5rem;\r\n}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"section\">\n    <div class=\"row\">\n      <div class=\"col s12 m8\">\n        <div id=\"top100\" class=\"card z-depth-0 card-realtime big-slide-toright\">\n          <div class=\"card-title center\">\n            Top 100 Criptomonedas\n          </div>\n          <div class=\"card-content\">\n            <table class=\"centered responsive\">\n              <thead>\n                <tr>\n                  <th></th>\n                  <th>Crypto</th>\n                  <th>USD</th>\n                  <th>Vol 24h (Mil)</th>\n                  <th>Market Cap (Mil)</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let data of realTimeData\">\n                  <td>\n                    <i *ngIf=\"data.quotes.USD.percent_change_24h >= 0\" class=\"material-icons left green-text pulse\">trending_up</i>\n                    <i *ngIf=\"data.quotes.USD.percent_change_24h < 0\" class=\"material-icons left red-text pulse\">trending_down</i>\n                    {{ data.quotes.USD.percent_change_24h}}%\n                  </td>\n                  <td>\n                    {{ data.name }}</td>\n                  <td>{{ data.quotes.USD.price | number:0 }}</td>\n                  <td>{{ data.quotes.USD.volume_24h/1000000 | number:0 }}</td>\n                  <td>{{ data.quotes.USD.market_cap/1000000 | number:0}}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n          <div id=\"globaldata\" class=\"card z-depth-0 card-resumen big-slide-toleft\">\n            <div class=\"card-content\">\n              <div class=\"data-title\">Criptomonedas activas: </div>\n              <div class=\"data\"> {{criptomonedas_activas}}</div>\n              <div class=\"data-title\">Mercados Activos: </div>\n              <div class=\"data\"> {{mercados_activos | number:0}}</div>\n              <div class=\"data-title\">Dominación Bitcoin: </div>\n              <div class=\"data\"> {{dominacion_bitcoin | number:0}}%</div>\n              <div class=\"data-title\">Market Cap: </div>\n              <div class=\"data\"> ${{market_cap_total | number:0}}</div>\n              <div class=\"data-title\">Vol 24h: </div>\n              <div class=\"data\"> ${{vol24h_total | number:0}}</div>\n            </div>\n          </div>\n        </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col s12 m6\">\n        <div id=\"vol24h\" class=\"card z-depth-0 card-realtime big-slide-toright\">\n          <div class=\"card-title center\">\n            % Volumen 24h\n          </div>\n          <div class=\"card-content card-content-graph\">\n            <canvas id=\"chart-change\" width=\"400\" height=\"300\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m6\">\n        <div id=\"volcomparado\" class=\"card z-depth-0 card-realtime short-slide-toleft\">\n          <div class=\"card-title center\">\n            % Precio comparado\n          </div>\n          <div class=\"card-content card-content-graph\">\n            <canvas id=\"chart-radar\" width=\"400\" height=\"300\"></canvas>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"section\">\n    <div class=\"row\">\n      <div class=\"col s12 m8\">\n        <div id=\"top100\" class=\"card z-depth-0 card-realtime big-slide-toright\">\n          <div class=\"card-title center\">\n            Top 100 Criptomonedas\n          </div>\n          <div class=\"card-content\">\n            <table class=\"centered responsive\">\n              <thead>\n                <tr>\n                  <th>Precio 24hs</th>\n                  <th>Crypto</th>\n                  <th>USD</th>\n                  <th>Vol 24h (Mill)</th>\n                  <th>Market Cap (Mill)</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let data of realTimeData\">\n                  <td>\n                    <i *ngIf=\"data.quotes.USD.percent_change_24h >= 0\" class=\"material-icons left green-text pulse\">trending_up</i>\n                    <i *ngIf=\"data.quotes.USD.percent_change_24h < 0\" class=\"material-icons left red-text pulse\">trending_down</i>\n                    {{ data.quotes.USD.percent_change_24h}}%\n                  </td>\n                  <td>\n                    {{ data.name }}</td>\n                  <td>{{ data.quotes.USD.price | number:0 }}</td>\n                  <td>{{ data.quotes.USD.volume_24h/1000000 | number:0 }}</td>\n                  <td>{{ data.quotes.USD.market_cap/1000000 | number:0}}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n          <div id=\"globaldata\" class=\"card z-depth-0 card-resumen big-slide-toleft\">\n            <div class=\"card-content\">\n              <div class=\"data-title\">Criptomonedas activas: </div>\n              <div class=\"data\"> {{criptomonedas_activas}}</div>\n              <div class=\"data-title\">Mercados Activos: </div>\n              <div class=\"data\"> {{mercados_activos | number:0}}</div>\n              <div class=\"data-title\">Dominación Bitcoin: </div>\n              <div class=\"data\"> {{dominacion_bitcoin | number:0}}%</div>\n              <div class=\"data-title\">Market Cap: </div>\n              <div class=\"data\"> ${{market_cap_total | number:0}}</div>\n              <div class=\"data-title\">Vol 24h: </div>\n              <div class=\"data\"> ${{vol24h_total | number:0}}</div>\n            </div>\n          </div>\n        </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col s12 m6\">\n        <div id=\"vol24h\" class=\"card z-depth-0 card-realtime big-slide-toright\">\n          <div class=\"card-title center\">\n            % Volumen 24h\n          </div>\n          <div class=\"card-content card-content-graph\">\n            <canvas id=\"chart-change\" width=\"400\" height=\"300\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m6\">\n        <div id=\"volcomparado\" class=\"card z-depth-0 card-realtime short-slide-toleft\">\n          <div class=\"card-title center\">\n            % Precio comparado\n          </div>\n          <div class=\"card-content card-content-graph\">\n            <canvas id=\"chart-radar\" width=\"400\" height=\"300\"></canvas>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -736,7 +736,7 @@ module.exports = "  .card-action{\r\n    display:inline-block; \r\n    width:100
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=section>\n    <!-- Precios máximos y mínimos / Crecimiento -->\n    <div class=\"row\">\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 short-slide-toright\">\n          <div class=\"card-title\">\n            <span>Volatilidad relativa esperada</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-volatilidad\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Crecimiento esperado</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-crecimiento\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 card-resumen extra-big-slide-toright\">\n          <div class=\"card-content\">\n            <table class=\"centered responsive\">\n              <thead>\n                <tr>\n                  <th>Crypto</th>\n                  <th>Min Precio (USD)</th>\n                  <th>Max Precio (USD)</th>\n                </tr>\n              </thead>\n              <tbody *ngIf=\"metadata\">\n                <tr>\n                  <td>Bitcoin</td>\n                  <td>{{ metadata.bitcoin.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.bitcoin.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ethereum</td>\n                  <td>{{ metadata.ethereum.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ethereum.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ripple</td>\n                  <td>{{ metadata.ripple.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ripple.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Bitcoin-Cash</td>\n                  <td>{{ metadata['bitcoin-cash'].MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata['bitcoin-cash'].MaximoPrecio | number:0 }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.bitcoin.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.bitcoin.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.bitcoin.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.bitcoin.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ethereum -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ethereum</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ethereum\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ethereum.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ethereum.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ethereum.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.ethereum.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ripple -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ripple</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ripple\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ripple.RMSE | number:'1.1-4' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ripple.RMSEHW | number:'1.1-4'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ripple.Volatilidad | number:'1.1-4' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata.ripple.Performance | number:'1.1-4'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin Cash -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin-Cash</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin-Cash\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata[\"bitcoin-cash\"].RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata[\"bitcoin-cash\"].RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata[\"bitcoin-cash\"].Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Rendimiento: {{metadata[\"bitcoin-cash\"].Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=section>\n    <!-- Precios máximos y mínimos / Crecimiento -->\n    <div class=\"row\">\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 short-slide-toright\">\n          <div class=\"card-title\">\n            <span>Volatilidad relativa esperada</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-volatilidad\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Crecimiento esperado</span>\n          </div>\n          <div class=\"card-content\">\n            <canvas id=\"prediccion-crecimiento\" width=\"75\" height=\"50\"></canvas>\n          </div>\n        </div>\n      </div>\n      <div class=\"col s12 m4\">\n        <div class=\"card z-depth-0 card-resumen extra-big-slide-toright\">\n          <div class=\"card-content\">\n            <table class=\"centered responsive\">\n              <thead>\n                <tr>\n                  <th>Crypto</th>\n                  <th>Min Precio (USD)</th>\n                  <th>Max Precio (USD)</th>\n                </tr>\n              </thead>\n              <tbody *ngIf=\"metadata\">\n                <tr>\n                  <td>Bitcoin</td>\n                  <td>{{ metadata.bitcoin.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.bitcoin.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ethereum</td>\n                  <td>{{ metadata.ethereum.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ethereum.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Ripple</td>\n                  <td>{{ metadata.ripple.MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata.ripple.MaximoPrecio | number:0 }}</td>\n                </tr>\n                <tr>\n                  <td>Bitcoin-Cash</td>\n                  <td>{{ metadata['bitcoin-cash'].MinimoPrecio | number:0 }}</td>\n                  <td>{{ metadata['bitcoin-cash'].MaximoPrecio | number:0 }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.bitcoin.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.bitcoin.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.bitcoin.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Crecimiento: {{metadata.bitcoin.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ethereum -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ethereum</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ethereum\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ethereum.RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ethereum.RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ethereum.Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Crecimiento: {{metadata.ethereum.Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Ripple -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Ripple</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Ripple\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata.ripple.RMSE | number:'1.1-4' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata.ripple.RMSEHW | number:'1.1-4'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata.ripple.Volatilidad | number:'1.1-4' }}</span>\n            <span class=\"tag right\">Crecimiento: {{metadata.ripple.Performance | number:'1.1-4'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- Bitcoin Cash -->\n    <div class=\"row \">\n      <div class=\"col s12 m12\">\n        <div class=\"card z-depth-0 big-slide-toright\">\n          <div class=\"card-title\">\n            <span>Predicción Bitcoin-Cash</span>\n          </div>\n          <div class=\"card-content\">\n            <i *ngIf=\"metadata && metadata.Performance > 0\" class=\"material-icons left green-text card-icon-flag\">trending_up</i>\n            <i *ngIf=\"metadata && metadata.Performance <= 0\" class=\"material-icons left red-text card-icon-flag\">trending_down</i>\n            <canvas id=\"chart-prediccion-Bitcoin-Cash\"></canvas>\n          </div>\n          <div class=\"card-action\" *ngIf=\"metadata\">\n            <span class=\"tag right\">RMSE RN: {{metadata[\"bitcoin-cash\"].RMSE | number:'1.1-1' }}</span>\n            <span class=\"tag right\">RMSE HW: {{metadata[\"bitcoin-cash\"].RMSEHW | number:'1.1-1'}}</span>\n            <span class=\"tag right\">Volatilidad: {{metadata[\"bitcoin-cash\"].Volatilidad | number:'1.1-1' }}</span>\n            <span class=\"tag right\">Crecimiento: {{metadata[\"bitcoin-cash\"].Performance | number:'1.1-1'}} USD/día</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -888,11 +888,11 @@ var PrediccionesComponent = /** @class */ (function () {
             new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Bitcoin'), {
                 type: 'bar',
                 data: {
-                    labels: fechas.slice(-15),
+                    labels: fechas.slice(-60),
                     datasets: [
                         {
                             label: "Precio real",
-                            data: preciosReales.slice(-15),
+                            data: preciosReales.slice(-60),
                             borderColor: 'rgba(25, 127, 255, 1)',
                             fill: false,
                             type: 'line',
@@ -900,7 +900,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción RN",
-                            data: prediccionRN.slice(-15),
+                            data: prediccionRN.slice(-60),
                             borderColor: 'rgba(225, 127, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -908,7 +908,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción Holt Winters",
-                            data: prediccionHoltWinters.slice(-15),
+                            data: prediccionHoltWinters.slice(-60),
                             borderColor: 'rgba(127, 255, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -957,11 +957,11 @@ var PrediccionesComponent = /** @class */ (function () {
             new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Ethereum'), {
                 type: 'bar',
                 data: {
-                    labels: fechas.slice(-15),
+                    labels: fechas.slice(-60),
                     datasets: [
                         {
                             label: "Precio real",
-                            data: preciosReales.slice(-15),
+                            data: preciosReales.slice(-60),
                             borderColor: 'rgba(25, 127, 255, 1)',
                             fill: false,
                             type: 'line',
@@ -969,7 +969,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción RN",
-                            data: prediccionRN.slice(-15),
+                            data: prediccionRN.slice(-60),
                             borderColor: 'rgba(225, 127, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -977,7 +977,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción Holt Winters",
-                            data: prediccionHoltWinters.slice(-15),
+                            data: prediccionHoltWinters.slice(-60),
                             borderColor: 'rgba(127, 255, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -1026,11 +1026,11 @@ var PrediccionesComponent = /** @class */ (function () {
             new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Ripple'), {
                 type: 'bar',
                 data: {
-                    labels: fechas.slice(-15),
+                    labels: fechas.slice(-60),
                     datasets: [
                         {
                             label: "Precio real",
-                            data: preciosReales.slice(-15),
+                            data: preciosReales.slice(-60),
                             borderColor: 'rgba(25, 127, 255, 1)',
                             fill: false,
                             type: 'line',
@@ -1038,7 +1038,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción RN",
-                            data: prediccionRN.slice(-15),
+                            data: prediccionRN.slice(-60),
                             borderColor: 'rgba(225, 127, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -1046,7 +1046,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción Holt Winters",
-                            data: prediccionHoltWinters.slice(-15),
+                            data: prediccionHoltWinters.slice(-60),
                             borderColor: 'rgba(127, 255, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -1095,11 +1095,11 @@ var PrediccionesComponent = /** @class */ (function () {
             new chart_js__WEBPACK_IMPORTED_MODULE_1__(document.getElementById('chart-prediccion-Bitcoin-Cash'), {
                 type: 'bar',
                 data: {
-                    labels: fechas.slice(-15),
+                    labels: fechas.slice(-60),
                     datasets: [
                         {
                             label: "Precio real",
-                            data: preciosReales.slice(-15),
+                            data: preciosReales.slice(-60),
                             borderColor: 'rgba(25, 127, 255, 1)',
                             fill: false,
                             type: 'line',
@@ -1107,7 +1107,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción RN",
-                            data: prediccionRN.slice(-15),
+                            data: prediccionRN.slice(-60),
                             borderColor: 'rgba(225, 127, 25, 1)',
                             fill: false,
                             type: 'line',
@@ -1115,7 +1115,7 @@ var PrediccionesComponent = /** @class */ (function () {
                         },
                         {
                             label: "Predicción Holt Winters",
-                            data: prediccionHoltWinters.slice(-15),
+                            data: prediccionHoltWinters.slice(-60),
                             borderColor: 'rgba(127, 255, 25, 1)',
                             fill: false,
                             type: 'line',
